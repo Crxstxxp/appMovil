@@ -1,0 +1,17 @@
+services:
+  # Dev server de Angular -> http://localhost:4200
+  # Tambien es el origen del live reload de la app Android (ver README).
+  dev:
+    build: .
+    image: appmovil-dev
+    container_name: appmovil-dev
+    ports:
+      # 0.0.0.0 y no 127.0.0.1: el emulador o el movil tienen que poder entrar.
+      - "${DEV_PORT:-4200}:4200"
+    volumes:
+      # Todo el proyecto, node_modules incluido: Android Studio (en el host)
+      # necesita ver node_modules para resolver los plugins de Capacitor.
+      - .:/app
+      # La cache de Angular si se queda dentro: son escrituras constantes y al
+      # host no le sirven de nada.
+      - /app/.angular

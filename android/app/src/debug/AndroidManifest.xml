@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  Overlay que solo se aplica a los builds *debug*.
+
+  El live reload carga la web desde el dev server por http (no https), y desde
+  Android 9 (API 28) el trafico en claro esta bloqueado por defecto: sin esto la
+  app arranca en blanco con ERR_CLEARTEXT_NOT_PERMITTED.
+
+  Al vivir en src/debug/, los builds de release siguen sin permitir http.
+-->
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+    <application android:usesCleartextTraffic="true" />
+</manifest>

@@ -1,0 +1,27 @@
+# Dependencias y artefactos (se instalan/generan dentro de la imagen)
+node_modules
+dist
+.angular
+
+# Plataformas nativas: no intervienen en el build web
+android
+ios
+
+# Control de versiones y editores
+.git
+.gitignore
+.vscode
+.idea
+.history
+
+# Docker
+Dockerfile*
+docker-compose*.yml
+.dockerignore
+
+# Varios
+coverage
+*.log
+.DS_Store
+Thumbs.db
+README.md
