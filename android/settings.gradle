@@ -1,0 +1,12 @@
+plugins {
+    // Permite que Gradle descargue automáticamente el JDK que un módulo
+    // necesite (algunos plugins nativos piden JDK 21 aunque el proyecto
+    // se ejecute con el JBR 25 que trae Android Studio).
+    id 'org.gradle.toolchains.foojay-resolver-convention' version '1.0.0'
+}
+
+include ':app'
+include ':capacitor-cordova-android-plugins'
+project(':capacitor-cordova-android-plugins').projectDir = new File('./capacitor-cordova-android-plugins/')
+
+apply from: 'capacitor.settings.gradle'

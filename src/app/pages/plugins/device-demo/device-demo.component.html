@@ -1,0 +1,56 @@
+<app-demo-header title="Dispositivo y red"></app-demo-header>
+
+<div class="page">
+  @if (networkStatus) {
+    <div class="network-banner" [class.offline]="!networkStatus.connected">
+      <span class="dot"></span>
+      {{ networkStatus.connected ? 'Conectado' : 'Sin conexión' }} · {{ networkStatus.connectionType }}
+    </div>
+  }
+
+  @if (deviceInfo) {
+    <div class="card">
+      <h3>Dispositivo</h3>
+      <div class="row">
+        <span class="label">Modelo</span>
+        <span class="value">{{ deviceInfo.manufacturer }} {{ deviceInfo.model }}</span>
+      </div>
+      <div class="row">
+        <span class="label">Plataforma</span>
+        <span class="value">{{ deviceInfo.platform }}</span>
+      </div>
+      <div class="row">
+        <span class="label">Sistema operativo</span>
+        <span class="value">{{ deviceInfo.operatingSystem }} {{ deviceInfo.osVersion }}</span>
+      </div>
+      <div class="row">
+        <span class="label">Es emulador</span>
+        <span class="value">{{ deviceInfo.isVirtual ? 'Sí' : 'No' }}</span>
+      </div>
+      <div class="row">
+        <span class="label">WebView</span>
+        <span class="value">{{ deviceInfo.webViewVersion }}</span>
+      </div>
+      @if (deviceId) {
+        <div class="row">
+          <span class="label">ID</span>
+          <span class="value id">{{ deviceId.identifier }}</span>
+        </div>
+      }
+    </div>
+  }
+
+  @if (batteryInfo) {
+    <div class="card">
+      <h3>Batería</h3>
+      <div class="row">
+        <span class="label">Nivel</span>
+        <span class="value">{{ (batteryInfo.batteryLevel ?? 0) * 100 | number: '1.0-0' }}%</span>
+      </div>
+      <div class="row">
+        <span class="label">Cargando</span>
+        <span class="value">{{ batteryInfo.isCharging ? 'Sí' : 'No' }}</span>
+      </div>
+    </div>
+  }
+</div>

@@ -1,0 +1,20 @@
+<div class="tabs-layout">
+  <main class="tabs-content">
+    <router-outlet></router-outlet>
+  </main>
+
+  <nav class="tab-bar">
+    <a routerLink="/home" routerLinkActive="active" class="tab-item">
+      <span class="tab-icon">🏠</span>
+      <span class="tab-label">Inicio</span>
+    </a>
+    <a routerLink="/plugins" routerLinkActive="active" class="tab-item">
+      <span class="tab-icon">🧩</span>
+      <span class="tab-label">Plugins</span>
+    </a>
+    <a routerLink="/perfil" routerLinkActive="active" class="tab-item">
+      <span class="tab-icon">👤</span>
+      <span class="tab-label">Perfil</span>
+    </a>
+  </nav>
+</div>

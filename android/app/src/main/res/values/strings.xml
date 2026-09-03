@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">AppMovil</string>
+    <string name="title_activity_main">AppMovil</string>
+    <string name="package_name">com.cristopher.appmovil</string>
+    <string name="custom_url_scheme">com.cristopher.appmovil</string>
+</resources>

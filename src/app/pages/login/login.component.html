@@ -1,0 +1,34 @@
+<div class="login-page">
+  <form class="login-card" #loginForm="ngForm" (ngSubmit)="onSubmit()">
+    <h1>Iniciar sesión</h1>
+    <p class="subtitle">Ingresa con tu usuario para continuar</p>
+
+    <label for="username">Usuario</label>
+    <input
+      id="username"
+      name="username"
+      type="text"
+      autocomplete="username"
+      placeholder="criss"
+      [(ngModel)]="username"
+      required
+    />
+
+    <label for="secret">Contraseña</label>
+    <input
+      id="secret"
+      name="secret"
+      type="password"
+      autocomplete="current-password"
+      placeholder="••••••"
+      [(ngModel)]="secret"
+      required
+    />
+
+    @if (errorMessage) {
+      <p class="error">{{ errorMessage }}</p>
+    }
+
+    <button type="submit" [disabled]="loginForm.invalid">Entrar</button>
+  </form>
+</div>

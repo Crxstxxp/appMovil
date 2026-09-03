@@ -1,0 +1,49 @@
+<app-demo-header title="Geolocalización"></app-demo-header>
+
+<div class="page">
+  <app-permission-badge label="Ubicación" [state]="permissionState"></app-permission-badge>
+
+  @if (permissionState !== 'granted') {
+    <button class="secondary-btn" (click)="requestPermission()">Solicitar permiso</button>
+  }
+
+  @if (errorMessage) {
+    <p class="error">{{ errorMessage }}</p>
+  }
+
+  <div class="actions">
+    <button class="primary-btn" [disabled]="loading" (click)="getCurrentPosition()">
+      {{ loading ? 'Obteniendo…' : 'Obtener ubicación actual' }}
+    </button>
+    <button class="secondary-btn" (click)="toggleWatch()">
+      {{ watching ? 'Detener seguimiento' : 'Iniciar seguimiento en vivo' }}
+    </button>
+  </div>
+
+  @if (position) {
+    <div class="coords-card">
+      <div class="row">
+        <span class="label">Latitud</span>
+        <span class="value">{{ position.coords.latitude }}</span>
+      </div>
+      <div class="row">
+        <span class="label">Longitud</span>
+        <span class="value">{{ position.coords.longitude }}</span>
+      </div>
+      <div class="row">
+        <span class="label">Precisión</span>
+        <span class="value">{{ position.coords.accuracy | number: '1.0-1' }} m</span>
+      </div>
+      @if (position.coords.speed !== null) {
+        <div class="row">
+          <span class="label">Velocidad</span>
+          <span class="value">{{ position.coords.speed }} m/s</span>
+        </div>
+      }
+      <div class="row">
+        <span class="label">Actualizado</span>
+        <span class="value">{{ position.timestamp | date: 'HH:mm:ss' }}</span>
+      </div>
+    </div>
+  }
+</div>

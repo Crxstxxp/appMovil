@@ -1,0 +1,32 @@
+<app-demo-header title="Escáner QR"></app-demo-header>
+
+<div class="page">
+  <app-permission-badge label="Cámara" [state]="permissionState"></app-permission-badge>
+
+  @if (permissionState !== 'granted') {
+    <button class="secondary-btn" (click)="requestPermission()">Solicitar permiso</button>
+  }
+
+  @if (errorMessage) {
+    <p class="error">{{ errorMessage }}</p>
+  }
+
+  <button class="primary-btn" [disabled]="scanning" (click)="scan()">
+    {{ scanning ? 'Escaneando…' : 'Escanear código' }}
+  </button>
+
+  <h3 class="list-title">Historial</h3>
+
+  @if (history.length === 0) {
+    <p class="empty">Todavía no has escaneado ningún código.</p>
+  } @else {
+    <div class="history-list">
+      @for (entry of history; track entry.scannedAt) {
+        <div class="history-item">
+          <span class="value">{{ entry.value }}</span>
+          <span class="format">{{ entry.format }}</span>
+        </div>
+      }
+    </div>
+  }
+</div>

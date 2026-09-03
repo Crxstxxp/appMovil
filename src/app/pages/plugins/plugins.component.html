@@ -1,0 +1,17 @@
+<div class="page">
+  <h2>Plugins</h2>
+  <p class="intro">Demos de capacidades nativas con Capacitor.</p>
+
+  <div class="entry-list">
+    @for (entry of entries; track entry.path) {
+      <a class="entry" [routerLink]="entry.path">
+        <span class="entry-icon">{{ entry.icon }}</span>
+        <span class="entry-text">
+          <span class="entry-title">{{ entry.title }}</span>
+          <span class="entry-description">{{ entry.description }}</span>
+        </span>
+        <span class="entry-chevron">›</span>
+      </a>
+    }
+  </div>
+</div>
