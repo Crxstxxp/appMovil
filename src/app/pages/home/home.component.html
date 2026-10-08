@@ -1,4 +1,63 @@
+<div class="pull-indicator" [style.height.px]="loading() ? PULL_THRESHOLD : pull()">
+  <span class="spinner" [class.spinning]="loading()" [style.transform]="loading() ? null : 'rotate(' + pull() * 3 + 'deg)'"></span>
+  <span class="pull-text">
+    @if (loading()) {
+      Actualizando…
+    } @else if (pull() >= PULL_THRESHOLD) {
+      Suelta para actualizar
+    } @else {
+      Desliza para actualizar
+    }
+  </span>
+</div>
+
 <div class="page">
-  <h2>Inicio</h2>
-  <p>Bienvenido/a a AppMovil. Este es el contenido de la pestaña Inicio.</p>
+  <h2>Notificaciones</h2>
+
+  @if (errorMessage()) {
+    <p class="error">{{ errorMessage() }}</p>
+  }
+
+  @if (!loading() && !errorMessage() && notificaciones().length === 0) {
+    <p class="empty">No hay notificaciones.</p>
+  }
+
+  @if (notificaciones().length > 0) {
+    <div class="table-wrapper">
+      <table>
+        <thead>
+          <tr>
+            <th>Folio</th>
+            <th>Asunto</th>
+            <th>Expediente</th>
+            <th>Notificador</th>
+            <th>Consejo</th>
+            <th>Destinatarios</th>
+            <th>Estado</th>
+            <th>Creación</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (n of notificaciones(); track n.id) {
+            <tr>
+              <td class="nowrap"><strong>{{ n.folio }}</strong></td>
+              <td>{{ n.titulo }}</td>
+              <td>{{ n.numero_expediente }}</td>
+              <td>{{ nombreCompleto(n.autor) }}</td>
+              <td>{{ n.consejo?.nombre ?? '-' }}</td>
+              <td>
+                @for (d of n.notificados; track d.id) {
+                  <div class="nowrap">{{ nombreCompleto(d) }}</div>
+                } @empty {
+                  -
+                }
+              </td>
+              <td><span class="badge status-{{ n.status }}">{{ estatus(n.status) }}</span></td>
+              <td class="nowrap">{{ n.created_at | date: 'dd/MM/yyyy HH:mm' }}</td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+  }
 </div>

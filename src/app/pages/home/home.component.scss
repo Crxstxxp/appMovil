@@ -1,13 +1,125 @@
+// El componente es su propio contenedor de scroll para saber cuándo está
+// arriba del todo (condición para el gesto de jalar y refrescar).
+:host {
+  display: block;
+  height: 100%;
+  overflow-y: auto;
+  overscroll-behavior-y: contain;
+}
+
+.pull-indicator {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  overflow: hidden;
+  color: #6b7280;
+  font-size: 0.8rem;
+  transition: height 0.2s ease;
+}
+
+.spinner {
+  width: 18px;
+  height: 18px;
+  border: 2px solid #c7d2fe;
+  border-top-color: #4f46e5;
+  border-radius: 50%;
+
+  &.spinning {
+    animation: spin 0.8s linear infinite;
+  }
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
 .page {
-  padding: 24px 20px;
+  padding: 16px;
 
   h2 {
-    margin: 0 0 8px;
+    margin: 0 0 12px;
     color: #1f2430;
   }
+}
 
-  p {
-    color: #6b7280;
-    line-height: 1.5;
+.error {
+  color: #dc2626;
+  font-size: 0.9rem;
+}
+
+.empty {
+  color: #6b7280;
+}
+
+// La tabla tiene muchas columnas: en el móvil se desliza en horizontal.
+.table-wrapper {
+  overflow-x: auto;
+  background: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(17, 24, 39, 0.06);
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.85rem;
+}
+
+th,
+td {
+  padding: 10px 12px;
+  text-align: left;
+  vertical-align: top;
+  border-bottom: 1px solid #eef0f3;
+}
+
+th {
+  background: #f9fafb;
+  color: #6b7280;
+  font-weight: 600;
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+tbody tr:last-child td {
+  border-bottom: none;
+}
+
+.nowrap {
+  white-space: nowrap;
+}
+
+.badge {
+  display: inline-block;
+  padding: 3px 8px;
+  border-radius: 999px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  white-space: nowrap;
+  background: #f3f4f6;
+  color: #374151;
+
+  &.status-2,
+  &.status-5 {
+    background: #fef3c7;
+    color: #92400e;
+  }
+  &.status-3,
+  &.status-8 {
+    background: #dcfce7;
+    color: #166534;
+  }
+  &.status-4,
+  &.status-9 {
+    background: #fee2e2;
+    color: #991b1b;
+  }
+  &.status-7 {
+    background: #e0e7ff;
+    color: #3730a3;
   }
 }

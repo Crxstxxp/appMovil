@@ -33,6 +33,7 @@ export class AuthService {
   private readonly currentUser = signal<AuthUser | null>(readStoredUser());
 
   readonly isLoggedIn = computed(() => this.token() !== null);
+  readonly accessToken = this.token.asReadonly();
   readonly user = this.currentUser.asReadonly();
 
   login(email: string, password: string): Observable<LoginResponse> {
