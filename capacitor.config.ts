@@ -20,6 +20,11 @@ const config: CapacitorConfig = {
   appId: 'com.cristopher.appmovil',
   appName: 'AppMovil',
   webDir: 'dist/app-movil/browser',
+  plugins: {
+    // Las peticiones HTTP salen por la capa nativa: sin CORS ni bloqueo de
+    // mixed content (la app se sirve en https://localhost y el backend es http).
+    CapacitorHttp: { enabled: true },
+  },
   ...(devServerUrl
     ? {
         server: {

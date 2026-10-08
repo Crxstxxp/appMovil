@@ -1,3 +1,4 @@
+import { HttpErrorResponse } from '@angular/common/http';
 import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
@@ -11,15 +12,10 @@ import { AuthService } from '../../services/auth.service';
   styleUrl: './login.component.scss'
 })
 export class LoginComponent {
-  // Credenciales de demo, hardcodeadas en el propio componente.
-  private readonly credentials = {
-    username: 'criss',
-    secret: 'secret'
-  };
-
-  username = '';
-  secret = '';
+  email = '';
+  password = '';
   errorMessage = '';
+  loading = false;
 
   constructor(
     private readonly auth: AuthService,
@@ -27,17 +23,21 @@ export class LoginComponent {
   ) {}
 
   onSubmit(): void {
-    const isValid =
-      this.username.trim() === this.credentials.username &&
-      this.secret === this.credentials.secret;
-
-    if (!isValid) {
-      this.errorMessage = 'Usuario o contraseña incorrectos';
-      return;
-    }
-
+    this.loading = true;
     this.errorMessage = '';
-    this.auth.login();
-    this.router.navigateByUrl('/home');
+
+    this.auth.login(this.email.trim(), this.password).subscribe({
+      next: () => {
+        this.loading = false;
+        this.router.navigateByUrl('/home');
+      },
+      error: (err: HttpErrorResponse) => {
+        this.loading = false;
+        this.errorMessage =
+          err.status === 0
+            ? 'No se pudo conectar con el servidor'
+            : (err.error?.message ?? 'Correo o contraseña incorrectos');
+      }
+    });
   }
 }

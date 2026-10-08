@@ -1,6 +1,6 @@
 <div class="page">
   <h2>Perfil</h2>
-  <p>Sesión iniciada como <strong>criss</strong>.</p>
+  <p>Sesión iniciada como <strong>{{ auth.user()?.nombre }}</strong> ({{ auth.user()?.email }}).</p>
 
   <button class="logout-btn" (click)="logout()">Cerrar sesión</button>
 </div>

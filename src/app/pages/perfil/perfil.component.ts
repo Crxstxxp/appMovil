@@ -10,7 +10,7 @@ import { AuthService } from '../../services/auth.service';
 })
 export class PerfilComponent {
   constructor(
-    private readonly auth: AuthService,
+    readonly auth: AuthService,
     private readonly router: Router
   ) {}
 
