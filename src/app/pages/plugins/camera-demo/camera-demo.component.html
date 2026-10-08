@@ -1,70 +1,92 @@
-<app-demo-header title="Cámara"></app-demo-header>
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/plugins" text="Plugins"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Cámara</ion-title>
+  </ion-toolbar>
+</ion-header>
 
-<div class="page">
-  <app-permission-badge label="Cámara" [state]="permissionState"></app-permission-badge>
+<ion-content class="ion-padding">
+  <div class="stack">
+    <app-permission-badge label="Cámara" [state]="permissionState"></app-permission-badge>
 
-  @if (permissionState !== 'granted') {
-    <button class="secondary-btn" (click)="requestPermission()">Solicitar permiso</button>
-  }
+    @if (permissionState !== 'granted') {
+      <ion-button fill="outline" shape="round" (click)="requestPermission()">Solicitar permiso</ion-button>
+    }
 
-  @if (errorMessage) {
-    <p class="error">{{ errorMessage }}</p>
-  }
+    @if (errorMessage) {
+      <ion-text color="danger"><p class="error">{{ errorMessage }}</p></ion-text>
+    }
 
-  @if (!capturedImage) {
-    <button class="primary-btn" (click)="takePhoto()">Tomar foto</button>
-  }
+    @if (!capturedImage) {
+      <ion-button expand="block" shape="round" (click)="takePhoto()">
+        <ion-icon name="camera" slot="start"></ion-icon>
+        Tomar foto
+      </ion-button>
+    }
 
-  @if (capturedImage) {
-    <div class="crop-section">
-      <p class="hint">Arrastra para mover, usa el control para hacer zoom.</p>
+    @if (capturedImage) {
+      <ion-card class="crop-card">
+        <ion-card-content>
+          <p class="hint">Arrastra para mover, usa el control para hacer zoom.</p>
 
-      <div
-        class="crop-frame"
-        [style.width.px]="frameSize"
-        [style.height.px]="frameSize"
-        (pointerdown)="onPointerDown($event)"
-        (pointermove)="onPointerMove($event)"
-        (pointerup)="onPointerUp()"
-        (pointercancel)="onPointerUp()"
-      >
-        <img
-          [src]="capturedSrc"
-          alt="Foto capturada"
-          [style.transform]="'translate(' + pan.left + 'px,' + pan.top + 'px) scale(' + (baseScale * zoom) + ')'"
-        />
-      </div>
+          <div
+            class="crop-frame"
+            [style.width.px]="frameSize"
+            [style.height.px]="frameSize"
+            (pointerdown)="onPointerDown($event)"
+            (pointermove)="onPointerMove($event)"
+            (pointerup)="onPointerUp()"
+            (pointercancel)="onPointerUp()"
+          >
+            <img
+              [src]="capturedSrc"
+              alt="Foto capturada"
+              [style.transform]="'translate(' + pan.left + 'px,' + pan.top + 'px) scale(' + (baseScale * zoom) + ')'"
+            />
+          </div>
 
-      <input
-        type="range"
-        min="1"
-        max="3"
-        step="0.05"
-        [value]="zoom"
-        (input)="onZoomChange($any($event.target).value)"
-      />
+          <ion-range
+            [min]="1"
+            [max]="3"
+            [step]="0.05"
+            [value]="zoom"
+            aria-label="Zoom"
+            (ionInput)="onZoomChange($any($event.detail.value))"
+          ></ion-range>
 
-      <div class="crop-actions">
-        <button class="secondary-btn" (click)="cancelCrop()">Cancelar</button>
-        <button class="primary-btn" (click)="confirmCrop()">Recortar y guardar</button>
-      </div>
-    </div>
-  }
+          <div class="crop-actions">
+            <ion-button fill="outline" color="medium" shape="round" (click)="cancelCrop()">Cancelar</ion-button>
+            <ion-button shape="round" (click)="confirmCrop()">
+              <ion-icon name="crop" slot="start"></ion-icon>
+              Guardar
+            </ion-button>
+          </div>
+        </ion-card-content>
+      </ion-card>
+    }
+  </div>
 
   <canvas #canvas hidden></canvas>
 
   <h3 class="list-title">Fotos guardadas</h3>
 
   @if (photosService.photos().length === 0) {
-    <p class="empty">Todavía no hay fotos guardadas.</p>
+    <div class="empty">
+      <ion-icon name="images-outline"></ion-icon>
+      <p>Todavía no hay fotos guardadas.</p>
+    </div>
   } @else {
     <div class="photo-grid">
       @for (photo of photosService.photos(); track photo.id) {
         <div class="photo-item">
           <img [src]="photo.dataUrl" alt="Foto guardada" />
-          <button class="delete-btn" (click)="deletePhoto(photo.id)" aria-label="Eliminar">✕</button>
+          <button class="delete-btn" (click)="deletePhoto(photo.id)" aria-label="Eliminar">
+            <ion-icon name="close"></ion-icon>
+          </button>
         </div>
       }
     </div>
   }
-</div>
+</ion-content>

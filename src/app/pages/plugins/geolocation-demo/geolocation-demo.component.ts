@@ -1,17 +1,38 @@
 import { DatePipe, DecimalPipe } from '@angular/common';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Geolocation, Position } from '@capacitor/geolocation';
-import { DemoHeaderComponent } from '../../../shared/demo-header/demo-header.component';
 import { PermissionBadgeComponent, PermissionState } from '../../../shared/permission-badge/permission-badge.component';
+import {
+  IonHeader,
+  IonToolbar,
+  IonButtons,
+  IonBackButton,
+  IonTitle,
+  IonContent,
+  IonButton,
+  IonIcon,
+  IonList,
+  IonItem,
+  IonLabel,
+  IonNote,
+  IonSpinner,
+  IonText
+} from '@ionic/angular/standalone';
+import { addIcons } from 'ionicons';
+import { locate, navigate, stop } from 'ionicons/icons';
 
 @Component({
   selector: 'app-geolocation-demo',
   standalone: true,
-  imports: [DemoHeaderComponent, PermissionBadgeComponent, DatePipe, DecimalPipe],
+  imports: [PermissionBadgeComponent, DatePipe, DecimalPipe, IonHeader, IonToolbar, IonButtons, IonBackButton, IonTitle, IonContent, IonButton, IonIcon, IonList, IonItem, IonLabel, IonNote, IonSpinner, IonText],
   templateUrl: './geolocation-demo.component.html',
   styleUrl: './geolocation-demo.component.scss'
 })
 export class GeolocationDemoComponent implements OnInit, OnDestroy {
+  constructor() {
+    addIcons({ locate, navigate, stop });
+  }
+
   permissionState: PermissionState = 'unknown';
   errorMessage = '';
   loading = false;

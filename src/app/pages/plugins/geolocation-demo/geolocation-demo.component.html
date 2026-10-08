@@ -1,49 +1,63 @@
-<app-demo-header title="Geolocalización"></app-demo-header>
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/plugins" text="Plugins"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Geolocalización</ion-title>
+  </ion-toolbar>
+</ion-header>
 
-<div class="page">
-  <app-permission-badge label="Ubicación" [state]="permissionState"></app-permission-badge>
+<ion-content class="ion-padding">
+  <div class="stack">
+    <app-permission-badge label="Ubicación" [state]="permissionState"></app-permission-badge>
 
-  @if (permissionState !== 'granted') {
-    <button class="secondary-btn" (click)="requestPermission()">Solicitar permiso</button>
-  }
+    @if (permissionState !== 'granted') {
+      <ion-button fill="outline" shape="round" (click)="requestPermission()">Solicitar permiso</ion-button>
+    }
 
-  @if (errorMessage) {
-    <p class="error">{{ errorMessage }}</p>
-  }
+    @if (errorMessage) {
+      <ion-text color="danger"><p class="error">{{ errorMessage }}</p></ion-text>
+    }
 
-  <div class="actions">
-    <button class="primary-btn" [disabled]="loading" (click)="getCurrentPosition()">
-      {{ loading ? 'Obteniendo…' : 'Obtener ubicación actual' }}
-    </button>
-    <button class="secondary-btn" (click)="toggleWatch()">
+    <ion-button expand="block" shape="round" [disabled]="loading" (click)="getCurrentPosition()">
+      @if (loading) {
+        <ion-spinner name="crescent" slot="start"></ion-spinner>
+        Obteniendo…
+      } @else {
+        <ion-icon name="locate" slot="start"></ion-icon>
+        Obtener ubicación actual
+      }
+    </ion-button>
+    <ion-button expand="block" shape="round" [fill]="watching ? 'solid' : 'outline'" [color]="watching ? 'danger' : 'primary'" (click)="toggleWatch()">
+      <ion-icon [name]="watching ? 'stop' : 'navigate'" slot="start"></ion-icon>
       {{ watching ? 'Detener seguimiento' : 'Iniciar seguimiento en vivo' }}
-    </button>
+    </ion-button>
   </div>
 
   @if (position) {
-    <div class="coords-card">
-      <div class="row">
-        <span class="label">Latitud</span>
-        <span class="value">{{ position.coords.latitude }}</span>
-      </div>
-      <div class="row">
-        <span class="label">Longitud</span>
-        <span class="value">{{ position.coords.longitude }}</span>
-      </div>
-      <div class="row">
-        <span class="label">Precisión</span>
-        <span class="value">{{ position.coords.accuracy | number: '1.0-1' }} m</span>
-      </div>
+    <ion-list [inset]="true" class="coords">
+      <ion-item>
+        <ion-label>Latitud</ion-label>
+        <ion-note slot="end">{{ position.coords.latitude }}</ion-note>
+      </ion-item>
+      <ion-item>
+        <ion-label>Longitud</ion-label>
+        <ion-note slot="end">{{ position.coords.longitude }}</ion-note>
+      </ion-item>
+      <ion-item>
+        <ion-label>Precisión</ion-label>
+        <ion-note slot="end">{{ position.coords.accuracy | number: '1.0-1' }} m</ion-note>
+      </ion-item>
       @if (position.coords.speed !== null) {
-        <div class="row">
-          <span class="label">Velocidad</span>
-          <span class="value">{{ position.coords.speed }} m/s</span>
-        </div>
+        <ion-item>
+          <ion-label>Velocidad</ion-label>
+          <ion-note slot="end">{{ position.coords.speed }} m/s</ion-note>
+        </ion-item>
       }
-      <div class="row">
-        <span class="label">Actualizado</span>
-        <span class="value">{{ position.timestamp | date: 'HH:mm:ss' }}</span>
-      </div>
-    </div>
+      <ion-item lines="none">
+        <ion-label>Actualizado</ion-label>
+        <ion-note slot="end">{{ position.timestamp | date: 'HH:mm:ss' }}</ion-note>
+      </ion-item>
+    </ion-list>
   }
-</div>
+</ion-content>

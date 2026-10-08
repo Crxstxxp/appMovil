@@ -1,20 +1,17 @@
-<div class="tabs-layout">
-  <main class="tabs-content">
-    <router-outlet></router-outlet>
-  </main>
-
-  <nav class="tab-bar">
-    <a routerLink="/home" routerLinkActive="active" class="tab-item">
-      <span class="tab-icon">🏠</span>
-      <span class="tab-label">Inicio</span>
-    </a>
-    <a routerLink="/plugins" routerLinkActive="active" class="tab-item">
-      <span class="tab-icon">🧩</span>
-      <span class="tab-label">Plugins</span>
-    </a>
-    <a routerLink="/perfil" routerLinkActive="active" class="tab-item">
-      <span class="tab-icon">👤</span>
-      <span class="tab-label">Perfil</span>
-    </a>
-  </nav>
-</div>
+<!-- Cada `tab` coincide con la ruta hija del mismo nombre (ver app.routes.ts). -->
+<ion-tabs>
+  <ion-tab-bar slot="bottom">
+    <ion-tab-button tab="home">
+      <ion-icon name="home"></ion-icon>
+      <ion-label>Inicio</ion-label>
+    </ion-tab-button>
+    <ion-tab-button tab="plugins">
+      <ion-icon name="extension-puzzle"></ion-icon>
+      <ion-label>Plugins</ion-label>
+    </ion-tab-button>
+    <ion-tab-button tab="perfil">
+      <ion-icon name="person"></ion-icon>
+      <ion-label>Perfil</ion-label>
+    </ion-tab-button>
+  </ion-tab-bar>
+</ion-tabs>

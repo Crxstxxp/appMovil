@@ -1,86 +1,32 @@
-// El componente es su propio contenedor de scroll para saber cuándo está
-// arriba del todo (condición para el gesto de jalar y refrescar).
-:host {
-  display: block;
-  height: 100%;
-  overflow-y: auto;
-  overscroll-behavior-y: contain;
+.table-card {
+  margin: 12px;
 }
 
-.pull-indicator {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-  overflow: hidden;
-  color: #6b7280;
-  font-size: 0.8rem;
-  transition: height 0.2s ease;
-}
-
-.spinner {
-  width: 18px;
-  height: 18px;
-  border: 2px solid #c7d2fe;
-  border-top-color: #4f46e5;
-  border-radius: 50%;
-
-  &.spinning {
-    animation: spin 0.8s linear infinite;
-  }
-}
-
-@keyframes spin {
-  to {
-    transform: rotate(360deg);
-  }
-}
-
-.page {
-  padding: 16px;
-
-  h2 {
-    margin: 0 0 12px;
-    color: #1f2430;
-  }
-}
-
-.error {
-  color: #dc2626;
-  font-size: 0.9rem;
-}
-
-.empty {
-  color: #6b7280;
-}
-
-// La tabla tiene muchas columnas: en el móvil se desliza en horizontal.
-.table-wrapper {
+.table-scroll {
   overflow-x: auto;
-  background: #ffffff;
-  border-radius: 12px;
-  box-shadow: 0 2px 8px rgba(17, 24, 39, 0.06);
 }
 
 table {
   width: 100%;
   border-collapse: collapse;
   font-size: 0.85rem;
+  color: var(--ion-text-color);
 }
 
 th,
 td {
-  padding: 10px 12px;
+  padding: 12px;
   text-align: left;
   vertical-align: top;
-  border-bottom: 1px solid #eef0f3;
+  border-bottom: 1px solid var(--ion-color-step-100, #eef0f3);
 }
 
 th {
-  background: #f9fafb;
-  color: #6b7280;
+  background: var(--ion-color-step-50, #f9fafb);
+  color: var(--ion-color-medium);
   font-weight: 600;
-  font-size: 0.75rem;
+  font-size: 0.7rem;
+  letter-spacing: 0.04em;
   text-transform: uppercase;
   white-space: nowrap;
 }
@@ -93,33 +39,39 @@ tbody tr:last-child td {
   white-space: nowrap;
 }
 
-.badge {
-  display: inline-block;
-  padding: 3px 8px;
-  border-radius: 999px;
-  font-size: 0.75rem;
+.folio {
   font-weight: 600;
-  white-space: nowrap;
-  background: #f3f4f6;
-  color: #374151;
+  color: var(--ion-color-primary);
+}
 
-  &.status-2,
-  &.status-5 {
-    background: #fef3c7;
-    color: #92400e;
+ion-badge {
+  font-weight: 600;
+  padding: 5px 9px;
+  border-radius: 999px;
+}
+
+.skeleton-row {
+  display: flex;
+  gap: 12px;
+  padding: 14px 12px;
+  border-bottom: 1px solid var(--ion-color-step-100, #eef0f3);
+
+  &:last-child {
+    border-bottom: none;
   }
-  &.status-3,
-  &.status-8 {
-    background: #dcfce7;
-    color: #166534;
+}
+
+.state {
+  margin-top: 25%;
+  padding: 0 32px;
+  text-align: center;
+  color: var(--ion-color-medium);
+
+  ion-icon {
+    font-size: 56px;
   }
-  &.status-4,
-  &.status-9 {
-    background: #fee2e2;
-    color: #991b1b;
-  }
-  &.status-7 {
-    background: #e0e7ff;
-    color: #3730a3;
+
+  .hint {
+    font-size: 0.85rem;
   }
 }

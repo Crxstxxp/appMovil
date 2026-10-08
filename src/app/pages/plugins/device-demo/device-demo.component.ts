@@ -3,16 +3,35 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { PluginListenerHandle } from '@capacitor/core';
 import { BatteryInfo, Device, DeviceId, DeviceInfo } from '@capacitor/device';
 import { ConnectionStatus, Network } from '@capacitor/network';
-import { DemoHeaderComponent } from '../../../shared/demo-header/demo-header.component';
+import {
+  IonHeader,
+  IonToolbar,
+  IonButtons,
+  IonBackButton,
+  IonTitle,
+  IonContent,
+  IonList,
+  IonListHeader,
+  IonItem,
+  IonLabel,
+  IonNote,
+  IonIcon
+} from '@ionic/angular/standalone';
+import { addIcons } from 'ionicons';
+import { wifi, cloudOffline, batteryCharging, batteryHalf } from 'ionicons/icons';
 
 @Component({
   selector: 'app-device-demo',
   standalone: true,
-  imports: [DemoHeaderComponent, DecimalPipe],
+  imports: [DecimalPipe, IonHeader, IonToolbar, IonButtons, IonBackButton, IonTitle, IonContent, IonList, IonListHeader, IonItem, IonLabel, IonNote, IonIcon],
   templateUrl: './device-demo.component.html',
   styleUrl: './device-demo.component.scss'
 })
 export class DeviceDemoComponent implements OnInit, OnDestroy {
+  constructor() {
+    addIcons({ wifi, cloudOffline, batteryCharging, batteryHalf });
+  }
+
   deviceInfo: DeviceInfo | null = null;
   deviceId: DeviceId | null = null;
   batteryInfo: BatteryInfo | null = null;

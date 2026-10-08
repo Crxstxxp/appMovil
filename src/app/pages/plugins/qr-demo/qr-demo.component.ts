@@ -1,7 +1,24 @@
 import { Component, OnInit } from '@angular/core';
 import { BarcodeFormat, BarcodeScanner } from '@capacitor-mlkit/barcode-scanning';
-import { DemoHeaderComponent } from '../../../shared/demo-header/demo-header.component';
 import { PermissionBadgeComponent, PermissionState } from '../../../shared/permission-badge/permission-badge.component';
+import {
+  IonHeader,
+  IonToolbar,
+  IonButtons,
+  IonBackButton,
+  IonTitle,
+  IonContent,
+  IonButton,
+  IonIcon,
+  IonList,
+  IonListHeader,
+  IonItem,
+  IonLabel,
+  IonNote,
+  IonText
+} from '@ionic/angular/standalone';
+import { addIcons } from 'ionicons';
+import { qrCode, scanOutline } from 'ionicons/icons';
 
 interface ScanEntry {
   value: string;
@@ -12,11 +29,15 @@ interface ScanEntry {
 @Component({
   selector: 'app-qr-demo',
   standalone: true,
-  imports: [DemoHeaderComponent, PermissionBadgeComponent],
+  imports: [PermissionBadgeComponent, IonHeader, IonToolbar, IonButtons, IonBackButton, IonTitle, IonContent, IonButton, IonIcon, IonList, IonListHeader, IonItem, IonLabel, IonNote, IonText],
   templateUrl: './qr-demo.component.html',
   styleUrl: './qr-demo.component.scss'
 })
 export class QrDemoComponent implements OnInit {
+  constructor() {
+    addIcons({ qrCode, scanOutline });
+  }
+
   permissionState: PermissionState = 'unknown';
   errorMessage = '';
   scanning = false;

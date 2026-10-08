@@ -1,60 +1,20 @@
-.page {
-  padding: 24px 20px;
-
-  h2 {
-    margin: 0 0 4px;
-    color: #1f2430;
-  }
-
-  .intro {
-    margin: 0 0 20px;
-    color: #6b7280;
-  }
+.intro {
+  margin: 16px 20px 0;
+  color: var(--ion-color-medium);
 }
 
-.entry-list {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-}
-
-.entry {
-  display: flex;
-  align-items: center;
-  gap: 14px;
-  padding: 14px 16px;
-  background: #ffffff;
-  border-radius: 12px;
-  box-shadow: 0 2px 8px rgba(17, 24, 39, 0.06);
-  text-decoration: none;
-  color: inherit;
-
-  &:active {
-    background: #f4f5f7;
-  }
+ion-item {
+  --padding-top: 6px;
+  --padding-bottom: 6px;
 }
 
 .entry-icon {
-  font-size: 1.6rem;
-}
-
-.entry-text {
-  display: flex;
-  flex-direction: column;
-  flex: 1;
-}
-
-.entry-title {
-  font-weight: 600;
-  color: #1f2430;
-}
-
-.entry-description {
-  font-size: 0.8rem;
-  color: #6b7280;
-}
-
-.entry-chevron {
-  font-size: 1.4rem;
-  color: #c7cbd4;
+  width: 40px;
+  height: 40px;
+  border-radius: 12px;
+  display: grid;
+  place-items: center;
+  font-size: 22px;
+  color: #fff;
+  background: var(--icon-color);
 }

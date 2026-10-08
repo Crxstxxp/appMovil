@@ -1,6 +1,6 @@
 import { HttpErrorResponse, HttpInterceptorFn } from '@angular/common/http';
 import { inject } from '@angular/core';
-import { Router } from '@angular/router';
+import { NavController } from '@ionic/angular/standalone';
 import { catchError, throwError } from 'rxjs';
 import { API_URL } from '../config/api.config';
 import { AuthService } from '../services/auth.service';
@@ -12,7 +12,7 @@ import { AuthService } from '../services/auth.service';
  */
 export const authInterceptor: HttpInterceptorFn = (req, next) => {
   const auth = inject(AuthService);
-  const router = inject(Router);
+  const nav = inject(NavController);
   const token = auth.accessToken();
 
   if (!req.url.startsWith(API_URL)) {
@@ -25,7 +25,7 @@ export const authInterceptor: HttpInterceptorFn = (req, next) => {
     catchError((err: unknown) => {
       if (err instanceof HttpErrorResponse && err.status === 401 && token) {
         auth.logout();
-        router.navigateByUrl('/login');
+        nav.navigateRoot('/login');
       }
       return throwError(() => err);
     })

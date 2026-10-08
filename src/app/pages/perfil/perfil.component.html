@@ -1,6 +1,49 @@
-<div class="page">
-  <h2>Perfil</h2>
-  <p>Sesión iniciada como <strong>{{ auth.user()?.nombre }}</strong> ({{ auth.user()?.email }}).</p>
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-title>Perfil</ion-title>
+  </ion-toolbar>
+</ion-header>
 
-  <button class="logout-btn" (click)="logout()">Cerrar sesión</button>
-</div>
+<ion-content [fullscreen]="true">
+  <ion-header collapse="condense">
+    <ion-toolbar>
+      <ion-title size="large">Perfil</ion-title>
+    </ion-toolbar>
+  </ion-header>
+
+  <div class="profile-hero">
+    <ion-avatar>
+      <span>{{ iniciales() }}</span>
+    </ion-avatar>
+    <h2>{{ nombre() }}</h2>
+  </div>
+
+  <ion-list [inset]="true">
+    <ion-item>
+      <ion-icon name="mail-outline" slot="start" color="primary"></ion-icon>
+      <ion-label>
+        <p>Correo</p>
+        <h3>{{ auth.user()?.email ?? '-' }}</h3>
+      </ion-label>
+    </ion-item>
+  </ion-list>
+
+  @if (auth.user()?.roles?.length) {
+    <ion-list [inset]="true">
+      <ion-list-header>Roles</ion-list-header>
+      @for (rol of auth.user()!.roles; track rol.id) {
+        <ion-item>
+          <ion-icon name="shield-checkmark-outline" slot="start" color="primary"></ion-icon>
+          <ion-label>{{ rol.rol }}</ion-label>
+        </ion-item>
+      }
+    </ion-list>
+  }
+
+  <div class="ion-padding">
+    <ion-button expand="block" color="danger" fill="outline" shape="round" (click)="logout()">
+      <ion-icon name="log-out-outline" slot="start"></ion-icon>
+      Cerrar sesión
+    </ion-button>
+  </div>
+</ion-content>

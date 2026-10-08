@@ -1,4 +1,4 @@
-<span class="permission-badge" [class]="state">
-  <span class="dot"></span>
-  {{ label }}: {{ text }}
-</span>
+<ion-chip [color]="estado.color" [outline]="false">
+  <ion-icon [name]="estado.icon"></ion-icon>
+  <ion-label>{{ label }}: {{ estado.text }}</ion-label>
+</ion-chip>

@@ -1,27 +1,35 @@
-/* You can add global styles to this file, and also import other style files */
+/*
+ * Estilos globales de Ionic. core.css es obligatorio; el resto son
+ * utilidades opcionales (normalize, tipografía, clases de padding, etc.).
+ */
+@import '@ionic/angular/css/core.css';
+@import '@ionic/angular/css/normalize.css';
+@import '@ionic/angular/css/structure.css';
+@import '@ionic/angular/css/typography.css';
+@import '@ionic/angular/css/padding.css';
+@import '@ionic/angular/css/flex-utils.css';
+@import '@ionic/angular/css/text-alignment.css';
 
-* {
-  box-sizing: border-box;
+/* Modo oscuro automático, según el ajuste del sistema. */
+@import '@ionic/angular/css/palettes/dark.system.css';
+
+/* Tema: color principal índigo. */
+:root {
+  --ion-color-primary: #4f46e5;
+  --ion-color-primary-rgb: 79, 70, 229;
+  --ion-color-primary-contrast: #ffffff;
+  --ion-color-primary-contrast-rgb: 255, 255, 255;
+  --ion-color-primary-shade: #4640ca;
+  --ion-color-primary-tint: #6159e8;
 }
 
-html,
-body {
-  height: 100%;
-  margin: 0;
-  padding: 0;
-  font-family:
-    -apple-system,
-    BlinkMacSystemFont,
-    'Segoe UI',
-    Roboto,
-    Helvetica,
-    Arial,
-    sans-serif;
-  background: #f4f5f7;
-  color: #1f2430;
-}
-
-app-root {
-  display: block;
-  height: 100%;
+@media (prefers-color-scheme: dark) {
+  :root {
+    --ion-color-primary: #818cf8;
+    --ion-color-primary-rgb: 129, 140, 248;
+    --ion-color-primary-contrast: #000000;
+    --ion-color-primary-contrast-rgb: 0, 0, 0;
+    --ion-color-primary-shade: #727bda;
+    --ion-color-primary-tint: #8e98f9;
+  }
 }

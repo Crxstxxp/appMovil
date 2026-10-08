@@ -1,8 +1,23 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { Camera } from '@capacitor/camera';
-import { DemoHeaderComponent } from '../../../shared/demo-header/demo-header.component';
 import { PermissionBadgeComponent, PermissionState } from '../../../shared/permission-badge/permission-badge.component';
 import { PhotosService } from '../../../services/photos.service';
+import {
+  IonHeader,
+  IonToolbar,
+  IonButtons,
+  IonBackButton,
+  IonTitle,
+  IonContent,
+  IonButton,
+  IonIcon,
+  IonRange,
+  IonText,
+  IonCard,
+  IonCardContent
+} from '@ionic/angular/standalone';
+import { addIcons } from 'ionicons';
+import { camera, close, crop, imagesOutline } from 'ionicons/icons';
 
 /** Tamaño (en px CSS) del marco cuadrado de recorte. */
 const FRAME_SIZE = 260;
@@ -12,7 +27,7 @@ const OUTPUT_SIZE = 512;
 @Component({
   selector: 'app-camera-demo',
   standalone: true,
-  imports: [DemoHeaderComponent, PermissionBadgeComponent],
+  imports: [PermissionBadgeComponent, IonHeader, IonToolbar, IonButtons, IonBackButton, IonTitle, IonContent, IonButton, IonIcon, IonRange, IonText, IonCard, IonCardContent],
   templateUrl: './camera-demo.component.html',
   styleUrl: './camera-demo.component.scss'
 })
@@ -32,7 +47,9 @@ export class CameraDemoComponent implements OnInit {
   private dragging = false;
   private dragStart = { x: 0, y: 0, left: 0, top: 0 };
 
-  constructor(readonly photosService: PhotosService) {}
+  constructor(readonly photosService: PhotosService) {
+    addIcons({ camera, close, crop, imagesOutline });
+  }
 
   async ngOnInit(): Promise<void> {
     await this.photosService.ensureLoaded();

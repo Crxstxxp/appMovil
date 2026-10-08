@@ -1,45 +1,4 @@
-.permission-badge {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  padding: 6px 12px;
-  border-radius: 999px;
-  font-size: 0.8rem;
+ion-chip {
+  margin: 0;
   font-weight: 600;
-  background: #f3f4f6;
-  color: #4b5563;
-
-  .dot {
-    width: 8px;
-    height: 8px;
-    border-radius: 50%;
-    background: #9ca3af;
-  }
-
-  &.granted {
-    background: #dcfce7;
-    color: #166534;
-
-    .dot {
-      background: #22c55e;
-    }
-  }
-
-  &.denied {
-    background: #fee2e2;
-    color: #991b1b;
-
-    .dot {
-      background: #ef4444;
-    }
-  }
-
-  &.prompt {
-    background: #fef3c7;
-    color: #92400e;
-
-    .dot {
-      background: #f59e0b;
-    }
-  }
 }

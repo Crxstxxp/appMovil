@@ -1,29 +1,22 @@
-.page {
-  padding: 24px 20px;
+.profile-hero {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 24px 16px 8px;
 
   h2 {
-    margin: 0 0 8px;
-    color: #1f2430;
-  }
-
-  p {
-    color: #6b7280;
-    line-height: 1.5;
-    margin-bottom: 24px;
+    margin: 12px 0 0;
+    font-weight: 700;
   }
 }
 
-.logout-btn {
-  padding: 12px 20px;
-  border: none;
-  border-radius: 10px;
-  background: #dc2626;
-  color: #ffffff;
-  font-size: 0.95rem;
-  font-weight: 600;
-  cursor: pointer;
-
-  &:active {
-    background: #b91c1c;
-  }
+ion-avatar {
+  width: 88px;
+  height: 88px;
+  display: grid;
+  place-items: center;
+  background: var(--ion-color-primary);
+  color: var(--ion-color-primary-contrast);
+  font-size: 2rem;
+  font-weight: 700;
 }

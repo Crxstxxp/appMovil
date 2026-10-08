@@ -36,6 +36,8 @@
     "@capacitor/geolocation": "^7.1.8",
     "@capacitor/network": "^7.0.4",
     "@capacitor/preferences": "^7.0.4",
+    "@ionic/angular": "^8.8.19",
+    "ionicons": "^8.1.0",
     "rxjs": "~7.8.0",
     "tslib": "^2.3.0",
     "zone.js": "~0.14.3"

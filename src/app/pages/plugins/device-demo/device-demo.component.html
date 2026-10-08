@@ -1,56 +1,73 @@
-<app-demo-header title="Dispositivo y red"></app-demo-header>
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/plugins" text="Plugins"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Dispositivo y red</ion-title>
+  </ion-toolbar>
+</ion-header>
 
-<div class="page">
+<ion-content>
   @if (networkStatus) {
-    <div class="network-banner" [class.offline]="!networkStatus.connected">
-      <span class="dot"></span>
-      {{ networkStatus.connected ? 'Conectado' : 'Sin conexión' }} · {{ networkStatus.connectionType }}
-    </div>
+    <ion-list [inset]="true">
+      <ion-item lines="none">
+        <ion-icon
+          slot="start"
+          [name]="networkStatus.connected ? 'wifi' : 'cloud-offline'"
+          [color]="networkStatus.connected ? 'success' : 'danger'"
+        ></ion-icon>
+        <ion-label>{{ networkStatus.connected ? 'Conectado' : 'Sin conexión' }}</ion-label>
+        <ion-note slot="end">{{ networkStatus.connectionType }}</ion-note>
+      </ion-item>
+    </ion-list>
   }
 
   @if (deviceInfo) {
-    <div class="card">
-      <h3>Dispositivo</h3>
-      <div class="row">
-        <span class="label">Modelo</span>
-        <span class="value">{{ deviceInfo.manufacturer }} {{ deviceInfo.model }}</span>
-      </div>
-      <div class="row">
-        <span class="label">Plataforma</span>
-        <span class="value">{{ deviceInfo.platform }}</span>
-      </div>
-      <div class="row">
-        <span class="label">Sistema operativo</span>
-        <span class="value">{{ deviceInfo.operatingSystem }} {{ deviceInfo.osVersion }}</span>
-      </div>
-      <div class="row">
-        <span class="label">Es emulador</span>
-        <span class="value">{{ deviceInfo.isVirtual ? 'Sí' : 'No' }}</span>
-      </div>
-      <div class="row">
-        <span class="label">WebView</span>
-        <span class="value">{{ deviceInfo.webViewVersion }}</span>
-      </div>
+    <ion-list [inset]="true">
+      <ion-list-header>Dispositivo</ion-list-header>
+      <ion-item>
+        <ion-label>Modelo</ion-label>
+        <ion-note slot="end">{{ deviceInfo.manufacturer }} {{ deviceInfo.model }}</ion-note>
+      </ion-item>
+      <ion-item>
+        <ion-label>Plataforma</ion-label>
+        <ion-note slot="end">{{ deviceInfo.platform }}</ion-note>
+      </ion-item>
+      <ion-item>
+        <ion-label>Sistema operativo</ion-label>
+        <ion-note slot="end">{{ deviceInfo.operatingSystem }} {{ deviceInfo.osVersion }}</ion-note>
+      </ion-item>
+      <ion-item>
+        <ion-label>Es emulador</ion-label>
+        <ion-note slot="end">{{ deviceInfo.isVirtual ? 'Sí' : 'No' }}</ion-note>
+      </ion-item>
+      <ion-item [lines]="deviceId ? undefined : 'none'">
+        <ion-label>WebView</ion-label>
+        <ion-note slot="end">{{ deviceInfo.webViewVersion }}</ion-note>
+      </ion-item>
       @if (deviceId) {
-        <div class="row">
-          <span class="label">ID</span>
-          <span class="value id">{{ deviceId.identifier }}</span>
-        </div>
+        <ion-item lines="none">
+          <ion-label>
+            ID
+            <p class="id">{{ deviceId.identifier }}</p>
+          </ion-label>
+        </ion-item>
       }
-    </div>
+    </ion-list>
   }
 
   @if (batteryInfo) {
-    <div class="card">
-      <h3>Batería</h3>
-      <div class="row">
-        <span class="label">Nivel</span>
-        <span class="value">{{ (batteryInfo.batteryLevel ?? 0) * 100 | number: '1.0-0' }}%</span>
-      </div>
-      <div class="row">
-        <span class="label">Cargando</span>
-        <span class="value">{{ batteryInfo.isCharging ? 'Sí' : 'No' }}</span>
-      </div>
-    </div>
+    <ion-list [inset]="true">
+      <ion-list-header>Batería</ion-list-header>
+      <ion-item>
+        <ion-icon slot="start" [name]="batteryInfo.isCharging ? 'battery-charging' : 'battery-half'" color="success"></ion-icon>
+        <ion-label>Nivel</ion-label>
+        <ion-note slot="end">{{ (batteryInfo.batteryLevel ?? 0) * 100 | number: '1.0-0' }}%</ion-note>
+      </ion-item>
+      <ion-item lines="none">
+        <ion-label>Cargando</ion-label>
+        <ion-note slot="end">{{ batteryInfo.isCharging ? 'Sí' : 'No' }}</ion-note>
+      </ion-item>
+    </ion-list>
   }
-</div>
+</ion-content>

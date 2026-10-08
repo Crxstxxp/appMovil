@@ -1,17 +1,29 @@
-<div class="page">
-  <h2>Plugins</h2>
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-title>Plugins</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <ion-header collapse="condense">
+    <ion-toolbar>
+      <ion-title size="large">Plugins</ion-title>
+    </ion-toolbar>
+  </ion-header>
+
   <p class="intro">Demos de capacidades nativas con Capacitor.</p>
 
-  <div class="entry-list">
+  <ion-list [inset]="true">
     @for (entry of entries; track entry.path) {
-      <a class="entry" [routerLink]="entry.path">
-        <span class="entry-icon">{{ entry.icon }}</span>
-        <span class="entry-text">
-          <span class="entry-title">{{ entry.title }}</span>
-          <span class="entry-description">{{ entry.description }}</span>
-        </span>
-        <span class="entry-chevron">›</span>
-      </a>
+      <ion-item [routerLink]="entry.path" [detail]="true" [button]="true">
+        <div class="entry-icon" slot="start" [style.--icon-color]="'var(--ion-color-' + entry.color + ')'">
+          <ion-icon [name]="entry.icon"></ion-icon>
+        </div>
+        <ion-label>
+          <h2>{{ entry.title }}</h2>
+          <p>{{ entry.description }}</p>
+        </ion-label>
+      </ion-item>
     }
-  </div>
-</div>
+  </ion-list>
+</ion-content>
