@@ -33,34 +33,86 @@
   text-align: center;
 }
 
-.crop-frame {
+.crop-stage {
   position: relative;
   overflow: hidden;
-  border-radius: 16px;
+  border-radius: 12px;
   background: #111827;
   touch-action: none;
+  user-select: none;
 
   img {
-    position: absolute;
-    top: 0;
-    left: 0;
-    max-width: none;
-    transform-origin: top left;
-    user-select: none;
+    display: block;
+    width: 100%;
+    height: 100%;
     pointer-events: none;
   }
 }
 
-ion-range {
-  width: 100%;
-  max-width: 260px;
+.crop-box {
+  position: absolute;
+  border: 2px solid #ffffff;
+  box-shadow: 0 0 0 9999px rgba(0, 0, 0, 0.55);
+  cursor: move;
+}
+
+// Guías de tercios dentro del recorte.
+.grid-line {
+  position: absolute;
+  background: rgba(255, 255, 255, 0.4);
+  pointer-events: none;
+
+  &.v1,
+  &.v2 {
+    top: 0;
+    bottom: 0;
+    width: 1px;
+  }
+  &.v1 {
+    left: 33.333%;
+  }
+  &.v2 {
+    left: 66.666%;
+  }
+  &.h1,
+  &.h2 {
+    left: 0;
+    right: 0;
+    height: 1px;
+  }
+  &.h1 {
+    top: 33.333%;
+  }
+  &.h2 {
+    top: 66.666%;
+  }
+}
+
+// Área táctil de 36px con un punto visible de 18px en el centro.
+.corner {
+  position: absolute;
+  width: 36px;
+  height: 36px;
+  transform: translate(-50%, -50%);
+  cursor: grab;
+  touch-action: none;
+
+  &::after {
+    content: '';
+    position: absolute;
+    inset: 9px;
+    border-radius: 50%;
+    background: var(--ion-color-primary);
+    border: 3px solid #ffffff;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.4);
+  }
 }
 
 .crop-actions {
   display: flex;
   gap: 8px;
   width: 100%;
-  max-width: 260px;
+  max-width: 480px;
 
   ion-button {
     flex: 1;

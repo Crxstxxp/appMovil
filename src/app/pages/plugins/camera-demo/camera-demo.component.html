@@ -29,32 +29,43 @@
     @if (capturedImage) {
       <ion-card class="crop-card">
         <ion-card-content>
-          <p class="hint">Arrastra para mover, usa el control para hacer zoom.</p>
+          <p class="hint">Arrastra las esquinas para ajustar el recorte, o el centro para moverlo.</p>
 
           <div
-            class="crop-frame"
-            [style.width.px]="frameSize"
-            [style.height.px]="frameSize"
-            (pointerdown)="onPointerDown($event)"
+            #stageEl
+            class="crop-stage"
+            [style.width.px]="stage.width"
+            [style.height.px]="stage.height"
             (pointermove)="onPointerMove($event)"
             (pointerup)="onPointerUp()"
             (pointercancel)="onPointerUp()"
           >
-            <img
-              [src]="capturedSrc"
-              alt="Foto capturada"
-              [style.transform]="'translate(' + pan.left + 'px,' + pan.top + 'px) scale(' + (baseScale * zoom) + ')'"
-            />
-          </div>
+            <img [src]="capturedSrc" alt="Foto capturada" draggable="false" />
 
-          <ion-range
-            [min]="1"
-            [max]="3"
-            [step]="0.05"
-            [value]="zoom"
-            aria-label="Zoom"
-            (ionInput)="onZoomChange($any($event.detail.value))"
-          ></ion-range>
+            <!-- Zona recortada: su sombra enorme oscurece todo lo que queda fuera. -->
+            <div
+              class="crop-box"
+              [style.left.px]="rect.left"
+              [style.top.px]="rect.top"
+              [style.width.px]="rect.right - rect.left"
+              [style.height.px]="rect.bottom - rect.top"
+              (pointerdown)="startDrag($event, 'move')"
+            >
+              <span class="grid-line v1"></span>
+              <span class="grid-line v2"></span>
+              <span class="grid-line h1"></span>
+              <span class="grid-line h2"></span>
+            </div>
+
+            @for (corner of corners; track corner) {
+              <div
+                class="corner"
+                [style.left.px]="cornerPos(corner).x"
+                [style.top.px]="cornerPos(corner).y"
+                (pointerdown)="startDrag($event, corner)"
+              ></div>
+            }
+          </div>
 
           <div class="crop-actions">
             <ion-button fill="outline" color="medium" shape="round" (click)="cancelCrop()">Cancelar</ion-button>
