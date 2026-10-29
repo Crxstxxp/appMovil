@@ -12,7 +12,7 @@
     "docker:build": "docker compose run --rm --no-deps dev npx ng build",
     "android:sync": "npm run docker:build && npx cap sync android",
     "android:open": "npx cap open android",
-    "android:build": "npm run docker:build && npx cap sync android && cd android && ./gradlew assembleDebug",
+    "android:build": "npm run docker:build && npx cap sync android && ./scripts/gradle.sh assembleDebug",
     "android:live:emu": "npm run docker:build && CAP_SERVER_URL=http://10.0.2.2:${DEV_PORT:-4200} npx cap sync android && npx cap open android",
     "android:live:device": "npm run docker:build && npm run android:reverse && CAP_SERVER_URL=http://localhost:${DEV_PORT:-4200} npx cap sync android && npx cap open android",
     "android:reverse": "./scripts/live-device.sh"
