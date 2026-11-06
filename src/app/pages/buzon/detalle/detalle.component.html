@@ -1,0 +1,173 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button [defaultHref]="volverA" text=""></ion-back-button>
+    </ion-buttons>
+    <ion-title>{{ detalle()?.folio ?? 'Notificación' }}</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <ion-refresher slot="fixed" (ionRefresh)="refrescar($event)">
+    <ion-refresher-content
+      pullingText="Desliza para actualizar"
+      refreshingSpinner="crescent"
+      refreshingText="Actualizando…"
+    ></ion-refresher-content>
+  </ion-refresher>
+
+  @if (cargando()) {
+    <ion-list [inset]="true">
+      @for (i of [1, 2, 3, 4, 5, 6]; track i) {
+        <ion-item>
+          <ion-label>
+            <ion-skeleton-text [animated]="true" style="width: 35%"></ion-skeleton-text>
+            <ion-skeleton-text [animated]="true" style="width: 75%"></ion-skeleton-text>
+          </ion-label>
+        </ion-item>
+      }
+    </ion-list>
+  } @else if (errorMessage()) {
+    <div class="state">
+      <ion-icon name="cloud-offline-outline"></ion-icon>
+      <ion-text color="danger">
+        <p>{{ errorMessage() }}</p>
+      </ion-text>
+      <p class="hint">Desliza hacia abajo para reintentar.</p>
+    </div>
+  } @else {
+    @if (detalle(); as d) {
+      @if (d.enviando) {
+        <div class="aviso">
+          <ion-spinner name="crescent"></ion-spinner>
+          <span>La notificación se está enviando. Desliza hacia abajo para ver el avance.</span>
+        </div>
+      }
+
+      <h1 class="asunto">{{ d.asunto ?? 'Sin asunto' }}</h1>
+
+      <ion-list [inset]="true">
+        <ion-list-header>Información de la notificación</ion-list-header>
+        @for (fila of d.informacion; track fila.etiqueta) {
+          <ion-item>
+            <ion-label class="fila">
+              <p>{{ fila.etiqueta }}</p>
+              @if (fila.valor && fila.valor.trim() !== '') {
+                <h3>{{ fila.valor }}</h3>
+              } @else {
+                <h3 class="sin-info">Sin información</h3>
+              }
+            </ion-label>
+          </ion-item>
+        }
+      </ion-list>
+
+      @if (d.campos.length) {
+        <ion-list [inset]="true">
+          <ion-list-header>Campos de la notificación</ion-list-header>
+          @for (campo of d.campos; track $index) {
+            <ion-item>
+              <ion-label class="fila">
+                <p>{{ campo.etiqueta }}</p>
+                @if (campo.valor && campo.valor.trim() !== '') {
+                  <h3>{{ campo.valor }}</h3>
+                } @else {
+                  <h3 class="sin-info">Sin información</h3>
+                }
+              </ion-label>
+            </ion-item>
+          }
+        </ion-list>
+      }
+
+      <ion-list [inset]="true">
+        <ion-list-header>Documentos</ion-list-header>
+        @for (doc of d.documentos; track doc.id) {
+          <ion-item [button]="true" [detail]="false" (click)="descargar(doc)">
+            <ion-icon
+              slot="start"
+              [name]="doc.oficial ? 'document-text-outline' : 'document-attach-outline'"
+              color="primary"
+            ></ion-icon>
+            <ion-label>
+              <h3>{{ doc.nombre }}</h3>
+              <p>{{ doc.oficial ? 'Documento oficial' : 'Adjunto' }} · {{ doc.tamano }}</p>
+            </ion-label>
+            @if (descargandoId() === doc.id) {
+              <ion-spinner slot="end" name="crescent"></ion-spinner>
+            } @else {
+              <ion-icon slot="end" name="cloud-download-outline" color="medium"></ion-icon>
+            }
+          </ion-item>
+        } @empty {
+          <ion-item>
+            <ion-label class="sin-info">Sin documentos</ion-label>
+          </ion-item>
+        }
+      </ion-list>
+
+      <ion-list [inset]="true">
+        <ion-list-header>Destinatarios</ion-list-header>
+
+        <ion-segment
+          [scrollable]="true"
+          [ngModel]="filtro()"
+          (ngModelChange)="filtro.set($event)"
+          class="filtros"
+        >
+          @for (f of filtros(); track f.valor) {
+            <ion-segment-button [value]="f.valor">
+              <ion-label>{{ f.etiqueta }} ({{ f.total }})</ion-label>
+            </ion-segment-button>
+          }
+        </ion-segment>
+
+        @for (dest of destinatariosFiltrados(); track dest.id) {
+          <ion-item>
+            <ion-label class="destinatario">
+              <div class="destinatario-cabecera">
+                <h3>{{ dest.nombre }}</h3>
+                <ion-badge [color]="colorEstado(dest.status)">{{ dest.estado }}</ion-badge>
+              </div>
+              <p>{{ dest.correo }}</p>
+
+              <div class="acuses">
+                <span [class.si]="dest.abrio">
+                  <ion-icon [name]="dest.abrio ? 'checkmark-circle' : 'remove-outline'"></ion-icon>
+                  Consultó
+                </span>
+                <span [class.si]="dest.descargo">
+                  <ion-icon [name]="dest.descargo ? 'checkmark-circle' : 'remove-outline'"></ion-icon>
+                  Descargó
+                </span>
+                <span [class.si]="dest.aceptoTerminos">
+                  <ion-icon [name]="dest.aceptoTerminos ? 'checkmark-circle' : 'remove-outline'"></ion-icon>
+                  Términos
+                </span>
+              </div>
+
+              <div class="extra">
+                @if (dest.ultimoAcceso) {
+                  <ion-note>Último acceso: {{ formatearFecha(dest.ultimoAcceso) }}</ion-note>
+                }
+                @if (dest.reenvios > 0) {
+                  <ion-note>
+                    <ion-icon name="send-outline"></ion-icon>
+                    {{ dest.reenvios }} {{ dest.reenvios === 1 ? 'reenvío' : 'reenvíos' }}
+                  </ion-note>
+                }
+                @if (!dest.activo) {
+                  <ion-badge color="medium">Inactivo</ion-badge>
+                }
+              </div>
+            </ion-label>
+          </ion-item>
+        } @empty {
+          <ion-item>
+            <ion-label class="sin-info">Ningún destinatario en este estado</ion-label>
+          </ion-item>
+        }
+      </ion-list>
+    }
+  }
+</ion-content>

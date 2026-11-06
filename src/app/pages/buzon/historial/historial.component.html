@@ -1,0 +1,57 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-title>Historial</ion-title>
+  </ion-toolbar>
+  <ion-toolbar class="buscador">
+    <ion-searchbar
+      placeholder="Buscar por asunto o folio"
+      [debounce]="400"
+      (ionInput)="buscar($event)"
+    ></ion-searchbar>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <ion-refresher slot="fixed" (ionRefresh)="refrescar($event)">
+    <ion-refresher-content
+      pullingText="Desliza para actualizar"
+      refreshingSpinner="crescent"
+      refreshingText="Actualizando…"
+    ></ion-refresher-content>
+  </ion-refresher>
+
+  @if (cargando()) {
+    <ion-list lines="full">
+      @for (i of [1, 2, 3, 4, 5]; track i) {
+        <div class="skeleton-row">
+          <ion-skeleton-text [animated]="true" style="width: 35%"></ion-skeleton-text>
+          <ion-skeleton-text [animated]="true" style="width: 80%; height: 16px"></ion-skeleton-text>
+          <ion-skeleton-text [animated]="true" style="width: 60%"></ion-skeleton-text>
+        </div>
+      }
+    </ion-list>
+  } @else if (errorMessage() && notificaciones().length === 0) {
+    <div class="state">
+      <ion-icon name="cloud-offline-outline"></ion-icon>
+      <ion-text color="danger">
+        <p>{{ errorMessage() }}</p>
+      </ion-text>
+      <p class="hint">Desliza hacia abajo para reintentar.</p>
+    </div>
+  } @else if (notificaciones().length === 0) {
+    <div class="state">
+      <ion-icon name="file-tray-outline"></ion-icon>
+      <p>No se encontraron notificaciones.</p>
+    </div>
+  } @else {
+    <ion-list lines="full">
+      @for (n of notificaciones(); track n.id) {
+        <app-notificacion-item [notificacion]="n" [enlace]="'/buzon/historial/' + n.id" />
+      }
+    </ion-list>
+
+    <ion-infinite-scroll [disabled]="!hayMas()" (ionInfinite)="siguientePagina($event)">
+      <ion-infinite-scroll-content loadingSpinner="crescent" loadingText="Cargando…"></ion-infinite-scroll-content>
+    </ion-infinite-scroll>
+  }
+</ion-content>

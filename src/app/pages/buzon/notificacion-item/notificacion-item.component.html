@@ -1,0 +1,20 @@
+<ion-item [routerLink]="enlace()" [detail]="true" [button]="true" lines="full">
+  <ion-label>
+    <div class="cabecera">
+      <span class="folio">{{ notificacion().folio ?? '--' }}</span>
+      <span class="tipo">{{ notificacion().tipo }}</span>
+    </div>
+    <h2 class="asunto">{{ notificacion().asunto }}</h2>
+    <p class="descripcion">{{ notificacion().descripcion }}</p>
+    <div class="meta">
+      <span>{{ formatearFechaCorta(notificacion().fecha) }}</span>
+      @if (notificacion().enviadoPor) {
+        <span>· {{ notificacion().enviadoPor }}</span>
+      }
+      <span class="destinatarios">
+        <ion-icon name="people-outline"></ion-icon>
+        {{ notificacion().destinatarios }}
+      </span>
+    </div>
+  </ion-label>
+</ion-item>

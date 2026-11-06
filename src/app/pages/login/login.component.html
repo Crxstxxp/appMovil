@@ -1,12 +1,27 @@
-<ion-content class="ion-padding" [fullscreen]="true">
+<!-- Con el buzón elegido el login toma su paleta (guinda), igual que el panel web. -->
+<ion-content class="ion-padding" [class.tema-buzon]="modulo === MODULOS.BUZON" [fullscreen]="true">
   <div class="login-wrapper">
     <div class="brand">
       <div class="brand-icon">
-        <ion-icon name="notifications"></ion-icon>
+        <ion-icon [name]="modulo === MODULOS.BUZON ? 'mail' : 'notifications'"></ion-icon>
       </div>
-      <h1>Notificaciones</h1>
-      <p>Ingresa con tu correo para continuar</p>
+      @if (modulo === MODULOS.BUZON) {
+        <h1>Buzón electrónico</h1>
+        <p>Candidaturas del POPJL</p>
+      } @else {
+        <h1>Notificaciones</h1>
+        <p>Ingresa con tu correo para continuar</p>
+      }
     </div>
+
+    <ion-segment [(ngModel)]="modulo" name="modulo" [disabled]="loading">
+      <ion-segment-button [value]="MODULOS.SNEDJ">
+        <ion-label>Notificaciones</ion-label>
+      </ion-segment-button>
+      <ion-segment-button [value]="MODULOS.BUZON">
+        <ion-label>Buzón</ion-label>
+      </ion-segment-button>
+    </ion-segment>
 
     <form #loginForm="ngForm" (ngSubmit)="onSubmit()">
       <ion-input

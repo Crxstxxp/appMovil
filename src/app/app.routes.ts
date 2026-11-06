@@ -1,5 +1,10 @@
 import { Routes } from '@angular/router';
+import { MODULOS } from './config/api.config';
 import { authGuard } from './guards/auth.guard';
+import { moduloGuard } from './guards/modulo.guard';
+
+const detalleBuzon = () =>
+  import('./pages/buzon/detalle/detalle.component').then((m) => m.DetalleComponent);
 
 export const routes: Routes = [
   {
@@ -9,7 +14,7 @@ export const routes: Routes = [
   {
     path: '',
     loadComponent: () => import('./layout/tabs/tabs.component').then((m) => m.TabsComponent),
-    canActivate: [authGuard],
+    canActivate: [authGuard, moduloGuard(MODULOS.SNEDJ)],
     children: [
       {
         path: 'home',
@@ -57,6 +62,46 @@ export const routes: Routes = [
           import('./pages/perfil/perfil.component').then((m) => m.PerfilComponent)
       },
       { path: '', pathMatch: 'full', redirectTo: 'home' }
+    ]
+  },
+  {
+    // Buzón electrónico: sólo con una sesión iniciada en ese módulo.
+    path: 'buzon',
+    loadComponent: () =>
+      import('./pages/buzon/tabs/buzon-tabs.component').then((m) => m.BuzonTabsComponent),
+    canActivate: [authGuard, moduloGuard(MODULOS.BUZON)],
+    children: [
+      {
+        path: 'inicio',
+        children: [
+          {
+            path: '',
+            loadComponent: () =>
+              import('./pages/buzon/inicio/inicio.component').then((m) => m.InicioComponent)
+          },
+          // El detalle se repite en cada pestaña para que "atrás" vuelva a la de origen.
+          { path: 'notificacion/:id', loadComponent: detalleBuzon }
+        ]
+      },
+      {
+        path: 'historial',
+        children: [
+          {
+            path: '',
+            loadComponent: () =>
+              import('./pages/buzon/historial/historial.component').then(
+                (m) => m.HistorialComponent
+              )
+          },
+          { path: ':id', loadComponent: detalleBuzon }
+        ]
+      },
+      {
+        path: 'perfil',
+        loadComponent: () =>
+          import('./pages/perfil/perfil.component').then((m) => m.PerfilComponent)
+      },
+      { path: '', pathMatch: 'full', redirectTo: 'inicio' }
     ]
   },
   { path: '**', redirectTo: 'login' }

@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable, computed, inject, signal } from '@angular/core';
 import { Observable, tap } from 'rxjs';
-import { API_URL, LOGIN_DEFAULTS } from '../config/api.config';
+import { API_URL, LOGIN_DEFAULTS, MODULOS, Modulo } from '../config/api.config';
 
 const TOKEN_KEY = 'appMovil.token';
 const USER_KEY = 'appMovil.user';
@@ -36,11 +36,21 @@ export class AuthService {
   readonly accessToken = this.token.asReadonly();
   readonly user = this.currentUser.asReadonly();
 
-  login(email: string, password: string): Observable<LoginResponse> {
+  /** El backend responde `modulos: [module]` con el módulo del login. */
+  readonly modulo = computed<Modulo>(
+    () => (this.currentUser()?.modulos?.[0] as Modulo | undefined) ?? MODULOS.SNEDJ
+  );
+
+  /** Pantalla de entrada según el módulo de la sesión. */
+  readonly rutaInicio = computed(() =>
+    this.modulo() === MODULOS.BUZON ? '/buzon/inicio' : '/home'
+  );
+
+  login(email: string, password: string, module: Modulo): Observable<LoginResponse> {
     return this.http
       .post<LoginResponse>(
         `${API_URL}/api/Core/auth/login`,
-        { email, password, ...LOGIN_DEFAULTS },
+        { email, password, module, ...LOGIN_DEFAULTS },
         { headers: { Accept: 'application/json, text/plain, */*' } }
       )
       .pipe(

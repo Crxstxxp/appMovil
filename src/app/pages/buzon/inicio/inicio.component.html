@@ -1,0 +1,104 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-title>Buzón electrónico</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <ion-refresher slot="fixed" (ionRefresh)="refrescar($event)">
+    <ion-refresher-content
+      pullingText="Desliza para actualizar"
+      refreshingSpinner="crescent"
+      refreshingText="Actualizando…"
+    ></ion-refresher-content>
+  </ion-refresher>
+
+  @if (cargando()) {
+    <div class="tarjetas">
+      @for (i of [1, 2, 3, 4]; track i) {
+        <ion-card class="tarjeta">
+          <ion-skeleton-text [animated]="true" style="width: 40px; height: 40px; border-radius: 12px"></ion-skeleton-text>
+          <ion-skeleton-text [animated]="true" style="width: 50%; height: 26px"></ion-skeleton-text>
+          <ion-skeleton-text [animated]="true" style="width: 80%"></ion-skeleton-text>
+        </ion-card>
+      }
+    </div>
+  } @else if (errorMessage()) {
+    <div class="state">
+      <ion-icon name="cloud-offline-outline"></ion-icon>
+      <ion-text color="danger">
+        <p>{{ errorMessage() }}</p>
+      </ion-text>
+      <p class="hint">Desliza hacia abajo para reintentar.</p>
+    </div>
+  } @else {
+    <p class="seccion-titulo">Esta semana</p>
+    <div class="tarjetas">
+      @for (t of tarjetas(); track t.tipo) {
+        <ion-card class="tarjeta">
+          <div class="tarjeta-icono" [style.color]="t.color" [style.background]="t.color + '1a'">
+            <ion-icon [name]="t.icono"></ion-icon>
+          </div>
+          <span class="tarjeta-valor">{{ t.esta_semana }}</span>
+          <span class="tarjeta-titulo">{{ t.titulo }}</span>
+          <span class="tarjeta-detalle">Hoy: {{ t.hoy }}</span>
+        </ion-card>
+      }
+    </div>
+
+    <ion-card class="panel">
+      <div class="panel-cabecera">
+        <div>
+          <h2>Notificaciones enviadas</h2>
+          <p>{{ totalPeriodo() }} en el periodo</p>
+        </div>
+        <ion-segment [ngModel]="periodo()" (ngModelChange)="periodo.set($event)" class="periodo">
+          <ion-segment-button value="7"><ion-label>7 días</ion-label></ion-segment-button>
+          <ion-segment-button value="30"><ion-label>30 días</ion-label></ion-segment-button>
+        </ion-segment>
+      </div>
+
+      @if (totalPeriodo() === 0) {
+        <p class="vacio">Sin envíos en el periodo.</p>
+      } @else {
+        <div class="grafica" [class.densa]="periodo() === '30'">
+          @for (b of barras(); track b.fecha) {
+            <div class="columna" [attr.aria-label]="b.etiqueta + ': ' + b.total">
+              @if (periodo() === '7') {
+                <span class="columna-total">{{ b.total }}</span>
+              }
+              <!-- La pista ocupa lo que deja el número: la barra al 100% no se sale. -->
+              <div class="pista">
+                <div class="barra" [style.height.%]="b.altura"></div>
+              </div>
+            </div>
+          }
+        </div>
+        <div class="grafica-ejes">
+          <span>{{ barras()[0].etiqueta }}</span>
+          <span>{{ barras()[barras().length - 1].etiqueta }}</span>
+        </div>
+      }
+    </ion-card>
+
+    <ion-card class="panel">
+      <div class="panel-cabecera">
+        <h2>Notificaciones recientes</h2>
+        <ion-button fill="clear" size="small" routerLink="/buzon/historial">Ver más</ion-button>
+      </div>
+
+      @if (tablero()?.recientes?.length) {
+        <ion-list lines="full">
+          @for (n of tablero()!.recientes; track n.id) {
+            <app-notificacion-item [notificacion]="n" [enlace]="'/buzon/inicio/notificacion/' + n.id" />
+          }
+        </ion-list>
+      } @else {
+        <div class="vacio">
+          <ion-icon name="file-tray-outline"></ion-icon>
+          <p>No hay notificaciones recientes.</p>
+        </div>
+      }
+    </ion-card>
+  }
+</ion-content>

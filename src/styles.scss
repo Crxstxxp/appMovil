@@ -33,3 +33,78 @@
     --ion-color-primary-tint: #8e98f9;
   }
 }
+
+/*
+ * Paleta del Buzón electrónico (la del panel web: guinda, dorado y gris
+ * azulado). Se aplica con la clase `tema-buzon` en el contenedor del módulo:
+ * las variables de Ionic se heredan a todo lo que cuelga de él.
+ */
+.tema-buzon {
+  --ion-color-primary: #470737;
+  --ion-color-primary-rgb: 71, 7, 55;
+  --ion-color-primary-contrast: #ffffff;
+  --ion-color-primary-contrast-rgb: 255, 255, 255;
+  --ion-color-primary-shade: #3e0630;
+  --ion-color-primary-tint: #59204b;
+
+  --ion-color-secondary: #bd9e55;
+  --ion-color-secondary-rgb: 189, 158, 85;
+  --ion-color-secondary-contrast: #000000;
+  --ion-color-secondary-contrast-rgb: 0, 0, 0;
+  --ion-color-secondary-shade: #a68b4b;
+  --ion-color-secondary-tint: #c4a866;
+
+  --ion-color-success: #0a8016;
+  --ion-color-success-rgb: 10, 128, 22;
+  --ion-color-success-contrast: #ffffff;
+  --ion-color-success-contrast-rgb: 255, 255, 255;
+  --ion-color-success-shade: #097113;
+  --ion-color-success-tint: #238d2d;
+
+  --ion-color-danger: #a20000;
+  --ion-color-danger-rgb: 162, 0, 0;
+  --ion-color-danger-contrast: #ffffff;
+  --ion-color-danger-contrast-rgb: 255, 255, 255;
+  --ion-color-danger-shade: #8f0000;
+  --ion-color-danger-tint: #ab1a1a;
+
+  /* Tokens propios del buzón (texto principal, secundario y fondo de tarjeta). */
+  --buzon-texto: #1e2b36;
+  --buzon-texto-suave: #848793;
+  --buzon-fondo: #f8f9fa;
+  --buzon-rosa: #f9e0eb;
+
+  --ion-toolbar-background: #1e2b36;
+  --ion-toolbar-color: #ffffff;
+  --ion-tab-bar-color-selected: #470737;
+}
+
+@media (prefers-color-scheme: dark) {
+  .tema-buzon {
+    /* El guinda no contrasta sobre fondo oscuro: se usa un tono aclarado. */
+    --ion-color-primary: #d77bb5;
+    --ion-color-primary-rgb: 215, 123, 181;
+    --ion-color-primary-contrast: #000000;
+    --ion-color-primary-contrast-rgb: 0, 0, 0;
+    --ion-color-primary-shade: #bd6c9f;
+    --ion-color-primary-tint: #db88bc;
+
+    --ion-color-success: #5cc468;
+    --ion-color-success-rgb: 92, 196, 104;
+    --ion-color-success-contrast: #000000;
+    --ion-color-success-contrast-rgb: 0, 0, 0;
+
+    --ion-color-danger: #f07272;
+    --ion-color-danger-rgb: 240, 114, 114;
+    --ion-color-danger-contrast: #000000;
+    --ion-color-danger-contrast-rgb: 0, 0, 0;
+
+    --buzon-texto: #e6e8eb;
+    --buzon-texto-suave: #a3a6b0;
+    --buzon-fondo: #121212;
+    --buzon-rosa: #3a1a2e;
+
+    --ion-toolbar-background: #141e26;
+    --ion-tab-bar-color-selected: #d77bb5;
+  }
+}
